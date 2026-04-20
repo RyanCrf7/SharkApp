@@ -129,14 +129,6 @@ SharkApp/
 |:-----|:------|
 | **Ryan Moore** | Desenvolvedor |
 
----
-
-## 📄 Licença
-
-Este projeto está licenciado sob a licença **MIT** — veja o arquivo [LICENSE](LICENSE) para detalhes.
-
----
-
 <p align="center">
   <sub>Feito com 🦈 por Ryan, Celso e Gabriel</sub>
 </p>
