@@ -128,8 +128,6 @@ SharkApp/
 | Nome | Papel |
 |:-----|:------|
 | **Ryan Moore** | Desenvolvedor |
-| **Celso Garcia** | Desenvolvedor |
-| **Gabriel Fellipe** | Desenvolvedor |
 
 ---
 
