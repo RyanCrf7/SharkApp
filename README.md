@@ -123,7 +123,7 @@ SharkApp/
 
 ---
 
-## 👥 Autores
+## 👥 Autor
 
 | Nome | Papel |
 |:-----|:------|
