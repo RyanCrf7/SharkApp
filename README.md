@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="icon3.png" width="120" alt="SharkApp Logo">
-</p>
-
 <h1 align="center">🦈 SharkApp</h1>
 
 <p align="center">
