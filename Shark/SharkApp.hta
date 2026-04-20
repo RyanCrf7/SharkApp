@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=11">
+    <title>SharkApp</title>
+    <HTA:APPLICATION ID="SharkAppId" 
+        APPLICATIONNAME="SharkApp" 
+        BORDER="thick"
+        BORDERSTYLE="normal"
+        CAPTION="yes"
+        ICON="icon3.ico"
+        MAXIMIZEBUTTON="yes"
+        MINIMIZEBUTTON="yes"
+        SHOWINTASKBAR="yes"
+        SINGLEINSTANCE="yes"
+        SYSMENU="yes"
+        VERSION="1.3"
+        WINDOWSTATE="normal"
+        SCROLL="no"/>
+    <style>
+        /* Dark Metallic Glassy CSS */
+        body {
+            background: #111418;
+            background-image: 
+                radial-gradient(ellipse at 50% 0%, #2b323c 0%, transparent 70%),
+                linear-gradient(180deg, #191c21 0%, #0d0f12 100%);
+            background-attachment: fixed;
+            color: #d1d5db;
+            font-family: 'Segoe UI', Tahoma, Geneva, sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header img {
+            width: 64px;
+            height: 64px;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.2));
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.8em;
+            color: #f3f4f6;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 2px rgba(255,255,255,0.2);
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+
+        .header p {
+            margin: 5px 0 0 0;
+            color: #8b949e;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .admin-badge {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 15px;
+            padding: 8px 18px;
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            color: #9ca3af;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+        }
+        
+        .admin-badge span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #10b981;
+            margin-right: 10px;
+            box-shadow: 0 0 8px #10b981;
+        }
+
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: flex-start;
+            flex-grow: 1;
+        }
+
+        .card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            width: calc(25% - 20px);
+            min-width: 220px;
+            margin: 10px;
+            padding: 25px 20px;
+            box-sizing: border-box;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.03) 100%);
+            border-top: 1px solid rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .card:active {
+            background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(255,255,255,0.02) 100%);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            transform: translateY(1px);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.4);
+        }
+
+        .card h3 {
+            margin: 10px 0 8px 0;
+            color: #f9fafb;
+            font-size: 1.05em;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .card p {
+            margin: 0;
+            font-size: 0.8em;
+            color: #9ca3af;
+            line-height: 1.5;
+        }
+
+        .icon {
+            font-size: 2.5em;
+            margin-bottom: 8px;
+            display: inline-block;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+            opacity: 0.9;
+        }
+
+        .card:hover .icon {
+            opacity: 1;
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
+        }
+
+        /* custom alert styles */
+        #custom-alert {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        .alert-box {
+            background: #1e293b;
+            padding: 25px 30px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            color: white;
+            min-width: 320px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+        .alert-box h3 { margin-top: 0; color: #f8fafc; font-weight: 500; font-size: 1.3em;}
+        .alert-box p { color: #94a3b8; margin-bottom: 25px; line-height: 1.4; font-size: 0.95em;}
+        .alert-btn {
+            background: #2563eb; color: white; border: none; padding: 10px 25px; 
+            border-radius: 6px; cursor: pointer; transition: background 0.2s; font-size: 1em; font-weight: bold;
+        }
+        .alert-btn:hover { background: #1d4ed8; }
+
+        /* Glassy Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb { 
+            background: rgba(255,255,255,0.15); 
+            border-radius: 5px; 
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+
+    </style>
+    <script>
+        // Resize window automatically to fit the UI properly
+        window.resizeTo(950, 750);
+
+        function showCustomAlert(msg) {
+            document.getElementById('custom-alert-msg').innerText = msg;
+            document.getElementById('custom-alert').style.display = 'flex';
+        }
+
+        function styleNativeWindow() {
+            try {
+                var shell = new ActiveXObject("WScript.Shell");
+                var htaPath = decodeURI(location.href).replace("file:///", "").replace(/\//g, "\\");
+                if (htaPath.indexOf("file:\\\\\\") === 0) { htaPath = htaPath.substring(8); }
+                var fso = new ActiveXObject("Scripting.FileSystemObject");
+                var currentDir = fso.GetParentFolderName(htaPath);
+                var iconPath = currentDir + "\\icon3.ico";
+                
+                var ps = "$t='[DllImport(\\\"dwmapi.dll\\\")] public static extern int DwmSetWindowAttribute(IntPtr w, int a, ref int v, int s); [DllImport(\\\"user32.dll\\\")] public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam); [DllImport(\\\"user32.dll\\\")] public static extern IntPtr LoadImage(IntPtr hinst, string lpszName, uint uType, int cxDesired, int cyDesired, uint fuLoad);'; Add-Type -MemberDefinition $t -Name W32 -PassThru | Out-Null; $h=(Get-Process mshta | ? MainWindowTitle -match 'SharkApp').MainWindowHandle; if($h){$v=1; [W32]::DwmSetWindowAttribute($h, 20, [ref]$v, 4); [W32]::DwmSetWindowAttribute($h, 19, [ref]$v, 4); $ic=[W32]::LoadImage([IntPtr]::Zero, '" + iconPath + "', 1, 0, 0, 0x00000010); [W32]::SendMessage($h, 0x0080, [IntPtr]0, $ic); [W32]::SendMessage($h, 0x0080, [IntPtr]1, $ic); }";
+                shell.Run("powershell.exe -NoProfile -WindowStyle Hidden -Command \"" + ps + "\"", 0, false);
+            } catch(e) {}
+        }
+        styleNativeWindow();
+
+        function elevateHTA() {
+            try {
+                var shell = new ActiveXObject("WScript.Shell");
+                // Run net session to check admin rights
+                var isNotAdmin = shell.Run("cmd.exe /c net session >nul 2>&1", 0, true);
+                if (isNotAdmin !== 0) {
+                    var htaPath = decodeURI(location.href);
+                    if (htaPath.indexOf("file:///") === 0) {
+                        htaPath = htaPath.substring(8);
+                    } else if (htaPath.indexOf("file://") === 0) {
+                        htaPath = "\\\\" + htaPath.substring(7);
+                    }
+                    htaPath = htaPath.replace(/\//g, "\\");
+                    
+                    var fso = new ActiveXObject("Scripting.FileSystemObject");
+                    var currentDir = fso.GetParentFolderName(htaPath);
+
+                    var shellApp = new ActiveXObject("Shell.Application");
+                    // Relaunch the HTA with admin privileges and correct working directory
+                    shellApp.ShellExecute("mshta.exe", "\"" + htaPath + "\"", currentDir, "runas", 1);
+                    window.close();
+                }
+            } catch (e) { }
+        }
+        elevateHTA();
+
+        function runCommand(commandId) {
+            try {
+                var shell = new ActiveXObject("WScript.Shell");
+                var fso = new ActiveXObject("Scripting.FileSystemObject");
+                
+                // Get HTA directory to find the python exe alongside it
+                var htaPath = decodeURI(location.href).replace("file:///", "").replace(/\//g, "\\");
+                if (htaPath.indexOf("file:\\\\\\") === 0) { htaPath = htaPath.substring(8); }
+                var currentDir = fso.GetParentFolderName(htaPath);
+                var exePath = currentDir + "\\shark.exe";
+                
+                if (!fso.FileExists(exePath)) {
+                    showCustomAlert("Execute não encontrado:\n" + exePath);
+                    return;
+                }
+
+                var shellApp = new ActiveXObject("Shell.Application");
+                // Execute the backend wrapper passing the commandId
+                shellApp.ShellExecute(exePath, commandId, currentDir, "open", 1);
+                
+            } catch (e) {
+                showCustomAlert("Erro ao executar o comando: (" + e.number + ") " + e.message);
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div id="custom-alert">
+        <div class="alert-box">
+            <h3>Aviso</h3>
+            <p id="custom-alert-msg"></p>
+            <button class="alert-btn" onclick="document.getElementById('custom-alert').style.display='none'">OK</button>
+        </div>
+    </div>
+        <div class="header">
+            <img src="icon3.ico" alt="SharkIcon">
+            <h1>SHARKAPP</h1>
+            <p>By: Ryan Moore, Celso Garcia e Gabriel Fellipe</p>
+            <div class="admin-badge"><span></span>Privilégios Administrativos</div>
+        </div>
+
+    <div class="grid">
+        <div class="card" onclick="runCommand('bios_key')">
+            <div class="icon">🔑</div>
+            <h3>Ativação (BIOS)</h3>
+            <p>Obtem a chave contida na BIOS e ativa o Windows automaticamente.</p>
+        </div>
+
+        <div class="card" onclick="runCommand('winget')">
+            <div class="icon">🔄</div>
+            <h3>Atualizar Aplicativos</h3>
+            <p>Atualiza o Windows e todos os programas pendentes usando Winget.</p>
+        </div>
+
+        <div class="card" onclick="runCommand('crack')">
+            <div class="icon">🔓</div>
+            <h3>Ativação Temporária</h3>
+            <p>Ativação de Windows e pacote Office usando o Microsoft Activation Scripts (MAS).</p>
+        </div>
+
+        <div class="card" onclick="runCommand('sfc')">
+            <div class="icon">🧰</div>
+            <h3>Reparar Sistema</h3>
+            <p>Usa SFC e DISM para encontrar e corrigir arquivos vitais do sistema corrompidos.</p>
+        </div>
+
+        <div class="card" onclick="runCommand('chkdsk')">
+            <div class="icon">💽</div>
+            <h3>Verificar Disco</h3>
+            <p>Inicia a verificação por problemas no sistema de arquivos ou setores defeituosos.</p>
+        </div>
+
+        <div class="card" onclick="runCommand('network')">
+            <div class="icon">🌐</div>
+            <h3>Diagnóstico de Rede</h3>
+            <p>Libera, renova IP e faz uma limpeza completa no cache de registro DNS.</p>
+        </div>
+
+        <div class="card" onclick="runCommand('inventory')">
+            <div class="icon">📋</div>
+            <h3>Criar Inventário</h3>
+            <p>Gera um relatório minucioso dos componentes de hardware da máquina atual no servidor.</p>
+        </div>
+
+        <div class="card" onclick="runCommand('titus')">
+            <div class="icon">⚙️</div>
+            <h3>Chris Titus Tool</h3>
+            <p>Inicia uma ferramenta utilitária e avançada para debloat, tweaks e instalações essenciais.</p>
+        </div>
+    </div>
+    </div>
+
+</body>
+</html>
